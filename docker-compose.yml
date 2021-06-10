@@ -15,6 +15,6 @@ services:
         - APP_DB_PASS=docker
         - APP_DB_NAME=docker
       volumes:
-        - ./db:/docker-entrypoint-initdb.d/
+        - ./src/application/db:/docker-entrypoint-initdb.d/
       ports:
         - 5432:5432
