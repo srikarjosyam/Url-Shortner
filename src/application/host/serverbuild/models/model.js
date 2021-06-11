@@ -36,7 +36,7 @@ var Model = /*#__PURE__*/function () {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                query = "SELECT ".concat(columns, " FROM ").concat(this.table);
+                query = "SELECT ".concat(columns, " FROM ").concat(this.table, " ");
                 if (clause) query += clause;
                 return _context.abrupt("return", this.pool.query(query));
 
@@ -79,6 +79,32 @@ var Model = /*#__PURE__*/function () {
       }
 
       return insert;
+    }()
+  }, {
+    key: "update",
+    value: function () {
+      var _update = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3(values, clause) {
+        var query;
+        return _regenerator.default.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                query = "UPDATE ".concat(this.table, " SET ").concat(values, " WHERE ").concat(clause, " ");
+                return _context3.abrupt("return", this.pool.query(query));
+
+              case 2:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function update(_x5, _x6) {
+        return _update.apply(this, arguments);
+      }
+
+      return update;
     }()
   }]);
   return Model;

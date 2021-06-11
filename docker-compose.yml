@@ -1,20 +1,31 @@
 version: "3.9"
 services:
-    postgres:
-      image: postgres:13.1
-      healthcheck:
-        test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "root" ]
-        timeout: 45s
-        interval: 10s
-        retries: 10
-      restart: always
-      environment:
-        - POSTGRES_USER=root
-        - POSTGRES_PASSWORD=password
-        - APP_DB_USER=docker
-        - APP_DB_PASS=docker
-        - APP_DB_NAME=docker
-      volumes:
-        - ./src/application/db:/docker-entrypoint-initdb.d/
-      ports:
-        - 5432:5432
+  app:
+    build: ./src/application
+    depends_on:
+      - postgres
+    environment:
+      CONNECTION_STRING: postgres://root:password@postgres:5432/root
+      NODE_ENV: production
+      PORT: 3000
+    ports:
+      - "3000:3000"
+    command: npm run start
+    volumes:
+      - .:/app/
+      - /app/node_modules
+  postgres:
+    image: postgres:13.1
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "root" ]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    restart: always
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - ./src/application/db:/docker-entrypoint-initdb.d/
+    ports:
+      - 5432:5432

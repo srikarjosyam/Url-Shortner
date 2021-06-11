@@ -96,7 +96,7 @@ export const Body =()=>{
           rowsMax={2}
           aria-label="maximum height"
           placeholder="Add URL"
-          defaultValue="Enter your URL"
+          defaultValue="Add URL"
           onChange={(e)=>setURLValue(e)}/>
         <Button style={{top:'-33px'}} variant="contained" color="primary" size="small" 
         className={classes.button} onClick={()=>createURL()} startIcon={<SaveIcon />}>Save</Button>

@@ -15,5 +15,6 @@ var indexRouter = _express.default.Router();
 
 indexRouter.get('/url', _urlshortner.fetchUrls);
 indexRouter.post('/url/add', _urlshortner.UrlAddition);
+indexRouter.put('/url/update', _urlshortner.UrlUpdate);
 var _default = indexRouter;
 exports.default = _default;
