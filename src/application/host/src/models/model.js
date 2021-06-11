@@ -8,13 +8,18 @@ class Model {
   }
 
   async select(columns, clause) {
-    let query = `SELECT ${columns} FROM ${this.table}`;
+    let query = `SELECT ${columns} FROM ${this.table} `;
     if (clause) query += clause;
     return this.pool.query(query);
   }
 
   async insert(columns, data) {
     let query = `INSERT INTO ${this.table}(${columns}) VALUES (${data}) RETURNING ${columns} `;
+    return this.pool.query(query);
+  }
+
+  async update(values, clause) {
+    let query = `UPDATE ${this.table} SET ${values} WHERE ${clause} `;
     return this.pool.query(query);
   }
 }
