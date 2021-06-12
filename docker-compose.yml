@@ -10,10 +10,11 @@ services:
       PORT: 3000
     ports:
       - "3000:3000"
-    command: npm run start
+    command: yarn run start
     volumes:
-      - .:/app/
+      - ./src/application:/app/
       - /app/node_modules
+      - /app/host/node_modules
   postgres:
     image: postgres:13.1
     healthcheck:

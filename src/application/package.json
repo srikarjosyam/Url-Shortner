@@ -21,7 +21,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "prestart": "yarn install && cd host && yarn install",
+    "install-all":"yarn install && cd host && yarn install",
     "start": "yarn build && cd host && yarn start",
     "build": "react-scripts build",
     "startdev": "react-scripts start",

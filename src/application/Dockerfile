@@ -1,14 +1,15 @@
 FROM node:14-alpine as base
 
 WORKDIR /app
-COPY ./package.json ./
-EXPOSE 3000
-
 FROM base as production
 ENV NODE_ENV=production
 RUN npm install yarn
-RUN yarn install --frozen-lockfile
+COPY ./package.json ./
+COPY ./host/ ./host
+RUN yarn install-all
 COPY . .
 RUN chown -R node:node /app
+USER node
+
 EXPOSE 3000
 CMD ["yarn", "run", "start"]
