@@ -24,6 +24,7 @@
     "install-all":"yarn install && cd host && yarn install",
     "start": "yarn build && cd host && yarn start",
     "build": "react-scripts build",
+    "build-all":"react-scripts build && cd host && yarn build",
     "startdev": "react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
