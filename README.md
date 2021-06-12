@@ -1,4 +1,4 @@
-# Url-Shortner   [![CodeQL](https://github.com/srikarjosyam/Url-Shortner/actions/workflows/codeql-analysis.yml/badge.svg?branch=main)](https://github.com/srikarjosyam/Url-Shortner/actions/workflows/codeql-analysis.yml)
+# Url-Shortner   [![Node.js CI](https://github.com/srikarjosyam/Url-Shortner/actions/workflows/node.js.yml/badge.svg?branch=main)](https://github.com/srikarjosyam/Url-Shortner/actions/workflows/node.js.yml) [![CodeQL](https://github.com/srikarjosyam/Url-Shortner/actions/workflows/codeql-analysis.yml/badge.svg?branch=main)](https://github.com/srikarjosyam/Url-Shortner/actions/workflows/codeql-analysis.yml)
 
 # Description
  
