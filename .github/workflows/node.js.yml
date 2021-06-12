@@ -29,3 +29,6 @@ jobs:
     - name: Build Fresh packages
       working-directory: ./src/application 
       run: yarn build-all
+    - name: Run Code Coverage
+      working-directory: ./src/application 
+      run: yarn test
