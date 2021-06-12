@@ -23,5 +23,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm install yarn
-    - run: yarn install-all
-    - run: yarn build-all
+    - name: Install dependencies 
+      working-directory: ./src/application
+      run: yarn install-all
+    - name: Build Fresh packages
+      working-directory: ./src/application 
+      run: yarn build-all
