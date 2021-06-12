@@ -1,4 +1,4 @@
-# Url-Shortner
+# Url-Shortner   [![CodeQL](https://github.com/srikarjosyam/Url-Shortner/actions/workflows/codeql-analysis.yml/badge.svg?branch=main)](https://github.com/srikarjosyam/Url-Shortner/actions/workflows/codeql-analysis.yml)
 
 # Description
  
