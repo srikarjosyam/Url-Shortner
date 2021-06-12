@@ -68,7 +68,7 @@ var UrlAddition = /*#__PURE__*/function () {
             urlData = new _model.default('UrlTrackingData');
             data = req.body;
             _context2.next = 5;
-            return urlData.insert('short_url, long_url,click_count', "'".concat(data.short_url, "','").concat(data.long_url, "',").concat(data.click_count));
+            return urlData.insert('short_url, long_url,click_count', data);
 
           case 5:
             result = _context2.sent;

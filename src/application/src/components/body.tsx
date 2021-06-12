@@ -7,7 +7,6 @@ import SaveIcon from '@material-ui/icons/Save';
 import { useState } from "react";
 import { generateString, isValidHttpUrl } from "../utils/stringUtils";
 import Alert, { Color } from '@material-ui/lab/Alert';
-import { Colorize } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme:any) => ({
   button: {
@@ -32,7 +31,7 @@ export const Body =()=>{
                 updateUrlData(data)
               };
     
-            return <a href={value} onClick={(e)=>onClick()}>{value}</a>
+            return <a onClick={(e)=>onClick()}>{value}</a>
         } },
         { field: 'long_url', headerName: 'CompleteUrl', width: 600 },
         { field: 'click_count', headerName: 'No.of Views', type: 'number',width: 200 }
@@ -49,27 +48,20 @@ export const Body =()=>{
         return result
     }
 
-    const NotificationData =()=>{
-      <Alert severity="success"></Alert>
-    }
-
     const createURL=()=>{
       let validUrl = isValidHttpUrl(url);
       if(validUrl){
-      let existingUrl =  urlData.find((val)=>{
-        if(val.long_url === url) return val
-      });
+      let existingUrl =  urlData.find(val=> val.long_url === url);
       if(!existingUrl){
         let num= Math.floor(Math.random() * (10 - 5 + 1) + 5)
         let runagain = true
        let short_url:string =''
         while(runagain){
-          short_url = '/'+generateString(num)
-          let result =  urlData.find((val)=>{
-          if(val.short_url === short_url) return val
-        })
+          let generatedUrl = '/'+generateString(num)
+          let result =  urlData.find(val=>val.short_url === generatedUrl)
           if(!result){
               runagain = false;
+              short_url = generatedUrl;
           }
         }
         let data:URL = {long_url:url,click_count:0,short_url:short_url}
@@ -104,7 +96,7 @@ export const Body =()=>{
         <div style={{ height: 300, width: '89%',marginLeft:20 }}>
       {isDataLoading?<CircularProgress disableShrink /> :<DataGrid loading={isDataLoading} rows={getRowData()} columns={columns} pageSize={5} />}
     </div>
-    {status.severity!=''?<Alert style={{width:'15%',marginLeft:'80%'}} onClose={() => setStatus({severity:'',message:''})} severity={status.severity as Color}>{status.message}</Alert>:undefined}
+    {status.severity!==''?<Alert style={{width:'15%',marginLeft:'80%'}} onClose={() => setStatus({severity:'',message:''})} severity={status.severity as Color}>{status.message}</Alert>:undefined}
     </div>
     )
 }

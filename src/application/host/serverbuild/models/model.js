@@ -58,15 +58,22 @@ var Model = /*#__PURE__*/function () {
     key: "insert",
     value: function () {
       var _insert = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2(columns, data) {
-        var query;
+        var text, values;
         return _regenerator.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                query = "INSERT INTO ".concat(this.table, "(").concat(columns, ") VALUES (").concat(data, ") RETURNING ").concat(columns, " ");
-                return _context2.abrupt("return", this.pool.query(query));
+                text = "INSERT INTO ".concat(this.table, "(").concat(columns, ") VALUES($1, $2) RETURNING ").concat(columns);
+                values = [data.short_url, data.long_url, data.click_count];
+                this.pool.query(text, values, function (err, res) {
+                  if (err) {
+                    console.log(err.stack);
+                  } else {
+                    console.log(res.rows[0]); // { name: 'brianc', email: 'brian.m.carlson@gmail.com' }
+                  }
+                });
 
-              case 2:
+              case 3:
               case "end":
                 return _context2.stop();
             }
