@@ -31,7 +31,7 @@ export const Body =()=>{
                 updateUrlData(data)
               };
     
-            return <a onClick={(e)=>onClick()}>{value}</a>
+            return <a href={value} onClick={(e)=>onClick()}>{value}</a>
         } },
         { field: 'long_url', headerName: 'CompleteUrl', width: 600 },
         { field: 'click_count', headerName: 'No.of Views', type: 'number',width: 200 }
