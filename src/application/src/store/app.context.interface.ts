@@ -8,8 +8,7 @@ export interface IAppContext{
     urlData: URL[],
     isDataLoading:boolean,
     fetchUrlData:Function,
-    createUrlData:Function,
-    updateUrlData:Function
+    createUrlData:Function
 }
 export const defaultData:IAppContext = {
     urlData:[
@@ -17,8 +16,7 @@ export const defaultData:IAppContext = {
     ],
     isDataLoading:false,
     fetchUrlData:()=> null,
-    createUrlData:()=> null,
-    updateUrlData:()=> null
+    createUrlData:()=> null
   };
   
 export const UrlDataContext = createContext<IAppContext>(defaultData);

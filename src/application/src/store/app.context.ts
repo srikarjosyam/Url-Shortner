@@ -34,39 +34,11 @@ export function useUrlContextValue(): IAppContext {
           setIsDataLoading(false);
         })
     }, [setUrlData, urlData]);
-
-
-    const updateUrlData = useCallback((data: URL) => {
-      setIsDataLoading(true);
-      fetch(`/v1/url/update`, {
-        method: 'PUT',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json'
-        },
-      })
-        .then(() => {
-          const result = urlData.map(value =>{
-            if(value.short_url === data.short_url){
-                value.click_count = data.click_count;
-                return value;
-            }
-            else{
-                return value
-                }
-          });
-          setUrlData(result);
-        })
-        .finally(() => {
-          setIsDataLoading(false);
-        })
-    }, [setUrlData, urlData]);
-   
+ 
     return {
       urlData,
       isDataLoading,
       fetchUrlData,
-      createUrlData,
-      updateUrlData
+      createUrlData
     }
   }

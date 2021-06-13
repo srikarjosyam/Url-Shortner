@@ -7,6 +7,4 @@ indexRouter.get('/url',fetchUrls);
 
 indexRouter.post('/url/add',UrlAddition)
 
-indexRouter.put('/url/update',UrlUpdate)
-
 export default indexRouter;

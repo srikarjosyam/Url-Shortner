@@ -5,13 +5,11 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.UrlUpdate = exports.UrlAddition = exports.fetchUrls = void 0;
+exports.UrlAddition = exports.fetchUrls = void 0;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
-
-var _config = _interopRequireDefault(require("../config"));
 
 var _model = _interopRequireDefault(require("../models/model"));
 
@@ -73,7 +71,7 @@ var UrlAddition = /*#__PURE__*/function () {
           case 5:
             result = _context2.sent;
             res.status(200).json({
-              messages: result.rows
+              messages: result
             });
             _context2.next = 12;
             break;
@@ -99,46 +97,3 @@ var UrlAddition = /*#__PURE__*/function () {
 }();
 
 exports.UrlAddition = UrlAddition;
-
-var UrlUpdate = /*#__PURE__*/function () {
-  var _ref3 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3(req, res) {
-    var urlData, data, result;
-    return _regenerator.default.wrap(function _callee3$(_context3) {
-      while (1) {
-        switch (_context3.prev = _context3.next) {
-          case 0:
-            _context3.prev = 0;
-            urlData = new _model.default('UrlTrackingData');
-            data = req.body;
-            _context3.next = 5;
-            return urlData.update('click_count=' + data.click_count, "short_url='" + data.short_url + "'");
-
-          case 5:
-            result = _context3.sent;
-            res.status(200).json({
-              messages: result.rows
-            });
-            _context3.next = 12;
-            break;
-
-          case 9:
-            _context3.prev = 9;
-            _context3.t0 = _context3["catch"](0);
-            res.status(200).json({
-              messages: _context3.t0.stack
-            });
-
-          case 12:
-          case "end":
-            return _context3.stop();
-        }
-      }
-    }, _callee3, null, [[0, 9]]);
-  }));
-
-  return function UrlUpdate(_x5, _x6) {
-    return _ref3.apply(this, arguments);
-  };
-}();
-
-exports.UrlUpdate = UrlUpdate;

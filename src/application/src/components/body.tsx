@@ -1,12 +1,13 @@
 import { useContext, useEffect } from "react";
 import {UrlDataContext } from "../store/app.context.interface";
-import { DataGrid, GridCellParams } from '@material-ui/data-grid';
-import { Button, CircularProgress, makeStyles, TextareaAutosize} from "@material-ui/core";
+import { DataGrid} from '@material-ui/data-grid';
+import { Button, CircularProgress, makeStyles,TextField} from "@material-ui/core";
 import {URL} from '../store/app.context.interface';
 import SaveIcon from '@material-ui/icons/Save';
 import { useState } from "react";
 import { generateString, isValidHttpUrl } from "../utils/stringUtils";
 import Alert, { Color } from '@material-ui/lab/Alert';
+import { FileCopy } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme:any) => ({
   button: {
@@ -18,21 +19,19 @@ const useStyles = makeStyles((theme:any) => ({
 export const Body =()=>{
     
     const classes = useStyles();
-    const {urlData,fetchUrlData,isDataLoading,updateUrlData,createUrlData} = useContext(UrlDataContext)
-    const [url,setURL] = useState('')
+    const {urlData,fetchUrlData,isDataLoading,createUrlData} = useContext(UrlDataContext)
+    const [url,setURL] = useState('Add URL')
+    const [link,setLink] = useState({short_url:''})
     const [status, setStatus] = useState({severity:'',message:''});
 
+  useEffect(() => {
+    setTimeout(() => {
+      setStatus({severity:'',message:''});
+    },5000);
+  }, [status]);
+
     const columns = [
-        { field: 'short_url', headerName: 'Url',width: 300,renderCell:(params:GridCellParams)=>{
-            let value = window.location.origin +"/st"+ params.getValue(params.id,"short_url")
-            const onClick = () => {
-              let data: URL  = {short_url:params.row.short_url,long_url:params.row.long_url,
-                click_count:params.row.click_count+1}
-                updateUrlData(data)
-              };
-    
-            return <a href={value} onClick={(e)=>onClick()}>{value}</a>
-        } },
+        { field: 'short_url', headerName: 'Url',width: 300 },
         { field: 'long_url', headerName: 'CompleteUrl', width: 600 },
         { field: 'click_count', headerName: 'No.of Views', type: 'number',width: 200 }
       ];
@@ -43,13 +42,15 @@ export const Body =()=>{
     
     const getRowData =()=>{
         let result = urlData.map((data,index)=>{
-              return {id:index,short_url:data.short_url,long_url:data.long_url,click_count:data.click_count}  
+              let value = window.location.origin +"/st"+ data.short_url
+              return {id:index,short_url:value,long_url:data.long_url,click_count:data.click_count}  
         })
         return result
     }
 
     const createURL=()=>{
-      let validUrl = isValidHttpUrl(url);
+      let currenturl = window.location.origin;
+      let validUrl = isValidHttpUrl(url) && !url.includes(currenturl);
       if(validUrl){
       let existingUrl =  urlData.find(val=> val.long_url === url);
       if(!existingUrl){
@@ -64,34 +65,54 @@ export const Body =()=>{
               short_url = generatedUrl;
           }
         }
-        let data:URL = {long_url:url,click_count:0,short_url:short_url}
-        createUrlData(data);
+       let data:URL = {long_url:url,click_count:0,short_url:short_url}
+       createUrlData(data);
+       setLink({short_url:`${currenturl}/st${short_url}`});
+       setURL(`${currenturl}/st${short_url}`);
        setStatus({severity:"success",message:`The Url is successfully created - ${data.short_url}`})
       }
       else{
+        setLink({short_url:''});
         setStatus({severity:"error",message:`The Url entered already has a shortened version - ${existingUrl.short_url}`})
       }
     }
     else{
-      setStatus({severity:"error",message:`The Url entered is invalid`})
+      if(url.includes(currenturl)){
+        setLink({short_url:''});
+        setStatus({severity:"error",message:`The Url entered is urlShortner Url`})
+      }
+      else{
+        setLink({short_url:''});
+        setStatus({severity:"error",message:`The Url entered is invalid`})
+      }
     }
     }
 
     const setURLValue =(value:any)=>{
+      setLink({short_url:''});
       setURL(value.target.value);
     }
 
+    const CopyUrl =()=>{
+      navigator.clipboard.writeText(link.short_url)
+      setStatus({severity:"success",message:`The Url is successfully Copied`})
+    }
+
+    const ButtonComponent =()=>{
+      if(link.short_url ===''){
+      return <Button style={{top:'-9px',height:55,width:135}} variant="contained" color="primary" size="large" 
+        className={classes.button} onClick={()=>createURL()} startIcon={<SaveIcon />}>Save</Button>
+      }
+      else{
+        return  <Button style={{top:'-9px',height:55,width:135}} variant="contained" color="primary" size="large" 
+        className={classes.button} onClick={()=>CopyUrl()} startIcon={<FileCopy />}>copy</Button> 
+      }
+    }
     return(
     <div>
-        <div>
-        <TextareaAutosize style={{margin:21,width:'80%',height:50}}
-          rowsMax={2}
-          aria-label="maximum height"
-          placeholder="Add URL"
-          defaultValue="Add URL"
-          onChange={(e)=>setURLValue(e)}/>
-        <Button style={{top:'-33px'}} variant="contained" color="primary" size="small" 
-        className={classes.button} onClick={()=>createURL()} startIcon={<SaveIcon />}>Save</Button>
+        <div style={{margin:21}}>
+        <TextField style={{marginRight:10,width:'80%',height:30}} id="outlined-basic" value={url} variant="outlined" onChange={(e)=>setURLValue(e)}/>
+        {ButtonComponent()}
         </div>
         <div style={{ height: 300, width: '89%',marginLeft:20 }}>
       {isDataLoading?<CircularProgress disableShrink /> :<DataGrid loading={isDataLoading} rows={getRowData()} columns={columns} pageSize={5} />}

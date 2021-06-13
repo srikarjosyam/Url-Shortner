@@ -1,4 +1,3 @@
-import testEnvironmentVariable  from '../config';
 import Model from '../models/model';
 
 export const fetchUrls = async(req, res) => {
@@ -27,19 +26,3 @@ export const UrlAddition = async(req, res) => {
   }
 };
 
-export const UrlUpdate = async(req, res) => {
-  try{
-  const urlData = new Model('UrlTrackingData');
-  let data = req.body;
-  const fields = {
-    click_count: data.click_count
-  };
-  const conditions = { short_url: data.short_url };
-  const result = await urlData.update(data,conditions);
-
-  res.status(200).json({ messages: result });
-} catch (err) {
-
-  res.status(200).json({ messages: err.stack });
-}
-};

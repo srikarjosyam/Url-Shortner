@@ -63,15 +63,17 @@ var Model = /*#__PURE__*/function () {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                text = "INSERT INTO ".concat(this.table, "(").concat(columns, ") VALUES($1, $2) RETURNING ").concat(columns);
+                text = "INSERT INTO ".concat(this.table, "(").concat(columns, ") VALUES($1, $2, $3) RETURNING ").concat(columns);
                 values = [data.short_url, data.long_url, data.click_count];
-                this.pool.query(text, values, function (err, res) {
+                return _context2.abrupt("return", this.pool.query(text, values, function (err, res) {
                   if (err) {
                     console.log(err.stack);
+                    throw err;
                   } else {
-                    console.log(res.rows[0]); // { name: 'brianc', email: 'brian.m.carlson@gmail.com' }
+                    console.log(res);
+                    return res;
                   }
-                });
+                }));
 
               case 3:
               case "end":
@@ -90,16 +92,45 @@ var Model = /*#__PURE__*/function () {
   }, {
     key: "update",
     value: function () {
-      var _update = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3(values, clause) {
-        var query;
+      var _update = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3(data, conditions) {
+        var dKeys, dataTuples, updates, len, keys, condTuples, condPlaceholders, values, text;
         return _regenerator.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                query = "UPDATE ".concat(this.table, " SET ").concat(values, " WHERE ").concat(clause, " ");
-                return _context3.abrupt("return", this.pool.query(query));
+                //update data object
+                dKeys = Object.keys(data);
+                dataTuples = dKeys.map(function (k, index) {
+                  return "".concat(k, " = $").concat(index + 1);
+                });
+                updates = dataTuples.join(", ");
+                len = Object.keys(data).length; //condition object
 
-              case 2:
+                keys = Object.keys(conditions);
+                condTuples = keys.map(function (k, index) {
+                  return "".concat(k, " = $").concat(index + 1 + len, " ");
+                });
+                condPlaceholders = condTuples.join(" AND "); //push the data to value object for query
+
+                values = [];
+                Object.keys(data).forEach(function (key) {
+                  values.push(data[key]);
+                });
+                Object.keys(conditions).forEach(function (key) {
+                  values.push(conditions[key]);
+                });
+                text = "UPDATE ".concat(this.table, " SET ").concat(updates, " WHERE ").concat(condPlaceholders);
+                return _context3.abrupt("return", this.pool.query(text, values, function (err, res) {
+                  if (err) {
+                    console.log(err.stack);
+                    throw err;
+                  } else {
+                    console.log(res);
+                    return res;
+                  }
+                }));
+
+              case 12:
               case "end":
                 return _context3.stop();
             }
