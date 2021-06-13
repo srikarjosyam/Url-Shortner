@@ -111,7 +111,7 @@ export const Body =()=>{
     return(
     <div>
         <div style={{margin:21}}>
-        <TextField style={{marginRight:10,width:'80%',height:30}} id="outlined-basic" value={url} variant="outlined" onChange={(e)=>setURLValue(e)}/>
+        <TextField style={{marginRight:10,width:'80%',height:30}} id="outlined-basic" label="Add URL" value={url} variant="outlined" onChange={(e)=>setURLValue(e)}/>
         {ButtonComponent()}
         </div>
         <div style={{ height: 300, width: '89%',marginLeft:20 }}>

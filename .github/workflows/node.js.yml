@@ -31,4 +31,4 @@ jobs:
       run: yarn build-all
     - name: Run Code Coverage
       working-directory: ./src/application 
-      run: yarn test
+      run: set CI=true && yarn test

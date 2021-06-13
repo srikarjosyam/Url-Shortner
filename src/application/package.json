@@ -24,7 +24,7 @@
     "install-all":"yarn install && cd host && yarn install",
     "start": "yarn build && cd host && yarn start",
     "build": "react-scripts build",
-    "test":"react-scripts test --watchAll --coverage",
+    "test":"react-scripts test --coverage",
     "build-all":"react-scripts build && cd host && yarn build",
     "startdev": "react-scripts start",
     "eject": "react-scripts eject"
@@ -36,9 +36,11 @@
     ]
   },
   "jest":{
-    "watchPathIgnorePatterns":[
-      "<rootDir>/src/index.tsx",
-      "<rootDir>/src/reportWebVitals.ts"
+    "collectCoverageFrom": [
+      "<rootDir>/src/**/*.{js,jsx,ts,tsx}",
+      "!<rootDir>/node_modules/",
+      "!<rootDir>/src/index.tsx",
+      "!<rootDir>/src/reportWebVitals.ts"
     ]
   },
   "browserslist": {

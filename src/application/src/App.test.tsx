@@ -17,7 +17,7 @@ test('Check that the Save Button exists and click on it with empty url or invali
 test('Add Url and Click on the Save button to creat a valid Url', () => {
    render(<App />);
    const button = screen.getByText('Save')
-   const textarea = screen.getByPlaceholderText('Add URL')
+   const textarea = screen.getByLabelText('Add URL')
    expect(textarea).toBeInTheDocument();
    fireEvent.change(textarea, { target: { value: 'https://stackoverflow.com/' } })
    expect(button).toBeInTheDocument();
